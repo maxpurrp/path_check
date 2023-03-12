@@ -15,7 +15,7 @@ def show_dir(path):
             else:
                 print("    " * tab_for_files, os.path.basename(q), ">", os.path.getsize(os.path.join(path,q)) / 1024 / 1024, "Mb")
     except FileNotFoundError:
-        pass
+        print(q, "FileNotFound")
 
 
 if __name__ == "__main__":
