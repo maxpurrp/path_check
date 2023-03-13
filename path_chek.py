@@ -13,9 +13,12 @@ def show_dir(path):
                 tab_for_files -= 1
                 tab_for_dir -= 1
             else:
-                print("    " * tab_for_files, os.path.basename(q), ">", os.path.getsize(os.path.join(path,q)) / 1024 / 1024, "Mb")
+                try:
+                    print("    " * tab_for_files, os.path.basename(q), ">", os.path.getsize(os.path.join(path,q)) / 1024 / 1024, "Mb")
+                except PermissionError:
+                    print("    " * tab_for_files, os.path.basename(q), "Access Denied")
     except PermissionError:
-        print(path, "Access Denied")
+        print("    "* tab_for_dir, path, "Access Denied")
     except OSError:
         print(OSError)
 
@@ -23,7 +26,8 @@ def show_dir(path):
 if __name__ == "__main__":
     tab_for_files = 1
     tab_for_dir = 0
-    parser = argparse.ArgumentParser()
-    parser.add_argument("-path","--PATH",required=True)
-    args = parser.parse_args()
-    show_dir(args.PATH)
+    #parser = argparse.ArgumentParser()
+    #parser.add_argument("-path","--PATH",required=True)
+    #args = parser.parse_args()
+    #show_dir(args.PATH)
+    show_dir("/")
