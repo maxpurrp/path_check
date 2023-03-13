@@ -22,12 +22,10 @@ def show_dir(path):
     except OSError:
         print(OSError)
 
-
 if __name__ == "__main__":
     tab_for_files = 1
     tab_for_dir = 0
-    #parser = argparse.ArgumentParser()
-    #parser.add_argument("-path","--PATH",required=True)
-    #args = parser.parse_args()
-    #show_dir(args.PATH)
-    show_dir("/")
+    parser = argparse.ArgumentParser()
+    parser.add_argument("-path","--PATH",required=True)
+    args = parser.parse_args()
+    show_dir(args.PATH)
