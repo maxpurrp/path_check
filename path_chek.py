@@ -17,9 +17,15 @@ def show_dir(path):
                     print("    " * tab_for_files, os.path.basename(q), ">", os.path.getsize(os.path.join(path,q)) / 1024 / 1024, "Mb")
                 except FileNotFoundError:
                     print("    " * tab_for_files, os.path.basename(q) ,"FileNotFound")
-    except FileNotFoundError:
-        print(path, "DirectoryNotFound")
+                except PermissionError:
+                    print("    " * tab_for_files, os.path.basename(q) ,"Access Denied")
 
+    except FileNotFoundError:
+        print("    "* tab_for_dir, path, "DirectoryNotFound")
+    except PermissionError:
+        print("    "* tab_for_dir, path, "Access Denied")
+    except OSError:
+        pass
 
 if __name__ == "__main__":
     tab_for_files = 1
