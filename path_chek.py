@@ -7,6 +7,7 @@ def show_dir(path):
         for q in os.listdir(path):
             if os.path.isdir(os.path.join(path, q)):
                 print("    "* tab_for_lines, os.path.basename(q))
+                tab_for_lines += 1
                 show_dir(os.path.join(path,q))
                 tab_for_lines -= 1
             else:
