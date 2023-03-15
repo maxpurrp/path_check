@@ -2,31 +2,46 @@ import os
 import argparse
 
 def show_dir(path):
-    global tab_for_lines
+    global tab_for_words
     try:
         for q in os.listdir(path):
             if os.path.isdir(os.path.join(path, q)):
-                print("    "* tab_for_lines, os.path.basename(q))
-                tab_for_lines += 1
-                show_dir(os.path.join(path,q))
-                tab_for_lines -= 1
+                if tab_for_words == 0:
+                    print("|", "----",  os.path.basename(q))
+                    tab_for_words += 1
+                    show_dir(os.path.join(path,q))
+                    tab_for_words -= 1
+                else:
+                    print("|", ("     "+ "|")* tab_for_words, "----",  os.path.basename(q))
+                    tab_for_words += 1
+                    show_dir(os.path.join(path,q))
+                    tab_for_words -= 1
             else:
                 try:
-                    print("    " * tab_for_lines, os.path.basename(q), ">", os.path.getsize(os.path.join(path,q)) / 1024 / 1024, "Mb")
+                    if tab_for_words == 0:
+                        print("|", "    "* tab_for_words,  os.path.basename(q), ">", os.path.getsize(os.path.join(path,q)) / 1024 / 1024, "Mb")
+                    else:
+                        print("|", ("     "+ "|")* tab_for_words,"  ",  os.path.basename(q), ">", os.path.getsize(os.path.join(path,q)) / 1024 / 1024, "Mb")
                 except FileNotFoundError:
-                    print("    " * tab_for_lines, os.path.basename(q) ,"FileNotFound")
+                        print("|", "   "* tab_for_words,"|",  "----" * tab_for_words, os.path.basename(q), ">", os.path.getsize(os.path.join(path,q)) / 1024 / 1024, "Mb")
                 except PermissionError:
-                    print("    " * tab_for_lines, os.path.basename(q) ,"Access Denied")
+                        print("|", "   "* tab_for_words,"|",  "----" * tab_for_words, os.path.basename(q), ">", os.path.getsize(os.path.join(path,q)) / 1024 / 1024, "Mb")
 
     except FileNotFoundError:
-        print("    "* tab_for_lines, path, "DirectoryNotFound")
+        if tab_for_words == 0:
+            print("|", "----", path, "DirectoryNotFound")
+        else:
+            print("|", ("     "+ "|")* tab_for_words, "----", path, "DirectoryNotFound")
     except PermissionError:
-        print("    "* tab_for_lines, path, "Access Denied")
+        if tab_for_words == 0:
+            print("|", "----", path, "Access Denied")
+        else:
+            print("|", ("     "+ "|")* tab_for_words, "----", path, "Access Denied")       
     except OSError:
         pass
 
 if __name__ == "__main__":
-    tab_for_lines = 0
+    tab_for_words = 0
     parser = argparse.ArgumentParser()
     parser.add_argument("-path","--PATH",required=True)
     args = parser.parse_args()
