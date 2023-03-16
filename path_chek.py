@@ -6,37 +6,22 @@ def show_dir(path):
     try:
         for q in os.listdir(path):
             if os.path.isdir(os.path.join(path, q)):
-                if tab_for_words == 0:
-                    print("|", "----",  os.path.basename(q))
-                    tab_for_words += 1
-                    show_dir(os.path.join(path,q))
-                    tab_for_words -= 1
-                else:
-                    print("|", ("     "+ "|")* tab_for_words, "----",  os.path.basename(q))
-                    tab_for_words += 1
-                    show_dir(os.path.join(path,q))
-                    tab_for_words -= 1
+                print("|"+ ("     "+ "|")* tab_for_words, "----",  os.path.basename(q))
+                tab_for_words += 1
+                show_dir(os.path.join(path,q))
+                tab_for_words -= 1
             else:
                 try:
-                    if tab_for_words == 0:
-                        print("|", "    "* tab_for_words,  os.path.basename(q), ">", os.path.getsize(os.path.join(path,q)) / 1024 / 1024, "Mb")
-                    else:
-                        print("|", ("     "+ "|")* tab_for_words,"  ",  os.path.basename(q), ">", os.path.getsize(os.path.join(path,q)) / 1024 / 1024, "Mb")
+                    print("|"+ ("     "+ "|")* tab_for_words,"  ",  os.path.basename(q), ">", os.path.getsize(os.path.join(path,q)) / 1024 / 1024, "Mb")
                 except FileNotFoundError:
-                        print("|", "   "* tab_for_words,"|",  "----" * tab_for_words, os.path.basename(q), ">", os.path.getsize(os.path.join(path,q)) / 1024 / 1024, "Mb")
+                    print("|"+ "   "* tab_for_words,"|",  "----" * tab_for_words, os.path.basename(q), ">", os.path.getsize(os.path.join(path,q)) / 1024 / 1024, "Mb")
                 except PermissionError:
-                        print("|", "   "* tab_for_words,"|",  "----" * tab_for_words, os.path.basename(q), ">", os.path.getsize(os.path.join(path,q)) / 1024 / 1024, "Mb")
+                    print("|"+ "   "* tab_for_words,"|",  "----" * tab_for_words, os.path.basename(q), ">", os.path.getsize(os.path.join(path,q)) / 1024 / 1024, "Mb")
 
     except FileNotFoundError:
-        if tab_for_words == 0:
-            print("|", "----", path, "DirectoryNotFound")
-        else:
-            print("|", ("     "+ "|")* tab_for_words, "----", path, "DirectoryNotFound")
+        print("|"+ ("     "+ "|")* tab_for_words, "----", path, "DirectoryNotFound")
     except PermissionError:
-        if tab_for_words == 0:
-            print("|", "----", path, "Access Denied")
-        else:
-            print("|", ("     "+ "|")* tab_for_words, "----", path, "Access Denied")       
+        print("|"+ ("     "+ "|")* tab_for_words, "----", path, "Access Denied")       
     except OSError:
         pass
 
