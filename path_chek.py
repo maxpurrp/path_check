@@ -3,11 +3,14 @@ import argparse
 
 def size_type(path, q):
     if args.s_t == "Kb":
-        return (os.path.getsize(os.path.join(path,q)) / 1024 )
+        x = os.path.getsize(os.path.join(path,q)) / 1024
+        return str(x) + " Kb"
     elif args.s_t == "Mb":
-        return (os.path.getsize(os.path.join(path,q)) / 1024 / 1024)
+        x = os.path.getsize(os.path.join(path,q)) / 1024 / 1024
+        return str(x) + " Mb"
     elif args.s_t == "Gb":
-        return (os.path.getsize(os.path.join(path,q)) / 1024 / 1024 / 1024)
+        x = os.path.getsize(os.path.join(path,q)) / 1024 / 1024 / 1024
+        return str(x) + " Gb"
 
 def show_dir(path):
     global tab_for_lines
@@ -20,7 +23,7 @@ def show_dir(path):
                 tab_for_lines -= 1
             else:
                 try:
-                    print("    " * tab_for_lines, os.path.basename(q), ">", size_type(path, q) , args.s_t)
+                    print("    " * tab_for_lines, os.path.basename(q), ">", size_type(path, q))
                 except FileNotFoundError:
                     print("    " * tab_for_lines, os.path.basename(q) ,"FileNotFound")
                 except PermissionError:
@@ -37,6 +40,6 @@ if __name__ == "__main__":
     tab_for_lines = 0
     parser = argparse.ArgumentParser()
     parser.add_argument("-path", "--PATH",required=True)
-    parser.add_argument("--s_t", "--size_type", default = "Mb")
+    parser.add_argument("--s_t","--size_type", default = "Mb", choices=["Kb", "Mb", "Gb"])
     args = parser.parse_args()
     show_dir(args.PATH)
