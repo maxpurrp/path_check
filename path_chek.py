@@ -6,7 +6,7 @@ def size_type(path, file, size_info):
     table["Kb"] = os.path.getsize(os.path.join(path,file)) / 1024
     table["Mb"] = os.path.getsize(os.path.join(path,file)) / 1024 / 1024
     table["Gb"] = os.path.getsize(os.path.join(path,file)) / 1024 / 1024 / 1024
-    return str(table[size_info]) + size_info
+    return str(table[size_info]) +" " + size_info
 
 def show_dir(path, size_info):
     global tab_for_lines
