@@ -1,25 +1,26 @@
 import os
 import argparse
 
-def size_type(path, file, size_info):
-    table = {}
-    table["Kb"] = os.path.getsize(os.path.join(path,file)) / 1024
-    table["Mb"] = os.path.getsize(os.path.join(path,file)) / 1024 / 1024
-    table["Gb"] = os.path.getsize(os.path.join(path,file)) / 1024 / 1024 / 1024
-    return str(table[size_info]) +" " + size_info
+def get_filesize(size_at_bite, size_measure):
+    table = {"Kb" : 1024,
+             "Mb" : 1024**2,
+             "Gb" : 1024**3
+             }
+    size = size_at_bite / table[size_measure]
+    return str(size) + " " + size_measure
 
-def show_dir(path, size_info):
+def show_dir(path, size_measure):
     global tab_for_lines
     try:
         for file in os.listdir(path):
             if os.path.isdir(os.path.join(path, file)):
                 print("    "* tab_for_lines, os.path.basename(file))
                 tab_for_lines += 1
-                show_dir(os.path.join(path,file), size_info)
+                show_dir(os.path.join(path,file), size_measure)
                 tab_for_lines -= 1
             else:
                 try:
-                    print("    " * tab_for_lines, os.path.basename(file), ">", size_type(path, file, size_info))
+                    print("    " * tab_for_lines, os.path.basename(file), ">", get_filesize(os.path.getsize(os.path.join(path,file)), size_measure))
                 except FileNotFoundError:
                     print("    " * tab_for_lines, os.path.basename(file) ,"FileNotFound")
                 except PermissionError:
@@ -38,6 +39,4 @@ if __name__ == "__main__":
     parser.add_argument("-path", "--PATH",required=True)
     parser.add_argument("--s_t","--size_type", default = "Mb", choices=["Kb", "Mb", "Gb"])
     args = parser.parse_args()
-    size_info = ""
-    size_info += args.s_t
-    show_dir(args.PATH, size_info)
+    show_dir(args.PATH, args.s_t)
