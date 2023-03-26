@@ -7,7 +7,11 @@ def get_filesize(size_at_bite, size_measure):
              "Gb" : 1024**3
              }
     size = size_at_bite / table[size_measure]
-    return str(size) + " " + size_measure
+    size = round(size,4)
+    if size > 0.0000:
+        return str(size) + " " + size_measure
+    else:
+        return "< 0.0000" + " " + size_measure
 
 def show_dir(path, size_measure):
     global tab_for_lines
@@ -20,7 +24,7 @@ def show_dir(path, size_measure):
                 tab_for_lines -= 1
             else:
                 try:
-                    print("    " * tab_for_lines, os.path.basename(file), ">", get_filesize(os.path.getsize(os.path.join(path,file)), size_measure))
+                    print("    " * tab_for_lines, os.path.basename(file), ":", get_filesize(os.path.getsize(os.path.join(path,file)), size_measure))
                 except FileNotFoundError:
                     print("    " * tab_for_lines, os.path.basename(file) ,"FileNotFound")
                 except PermissionError:
